@@ -1,0 +1,33 @@
+.bs-center{
+  text-align: center
+}
+.bs-auto{
+  margin: auto;
+}
+.bs-hidden{
+  display: none;
+}
+
+.bs-ofh{
+  overflow: hidden;
+}
+.btn-center {
+  text-align: center;
+  margin-bottom: 5px;
+}
+.fm-basic{
+  width: 45%;
+  margin: 0 auto;
+  margin-top: 0px;
+}
+
+.fm-account{
+	margin: 0 auto;
+	margin-top: 100px;
+}
+
+.fm-in{
+  width: 80%;
+  margin: 20px auto;
+
+}

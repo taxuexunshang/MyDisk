@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" href="/disk/layui/css/layui.css">
+    <script src="/disk/layui/layui.js"></script>
+</head>
+<body>
+<div>
+
+    <div class="layui-card" style="width: 200px;">
+        <div class="layui-card-header">用户登录</div>
+        <div class="layui-card-body">
+            <form class="layui-form">
+                <div class="layui-form-item">
+                    <label class="layui-form-label">用户名</label>
+                    <div class="layui-input-inline">
+                        <input type="text" name="" placeholder="请输入" autocomplete="off" class="layui-input">
+                    </div>
+                </div>
+
+                <div class="layui-form-item">
+                    <label class="layui-form-label">密码</label>
+                    <div class="layui-input-inline">
+                        <input type="text" name="" placeholder="请输入" autocomplete="off" class="layui-input">
+                    </div>
+                </div>
+            </form>
+        </div>
+        <!--<a href="##" download="upload/3.jpg">Test</a>-->
+        <a class="layui-btn" id="download">Test 下载</a>
+    </div>
+
+</div>
+
+</body>
+<script>
+    layui.use('upload', function(){
+        var upload = layui.upload;
+        //执行实例
+        var uploadInst = upload.render({
+            elem: '#test1' //绑定元素
+            ,url: '/disk/file/upload/' //上传接口
+            ,done: function(res){
+                layui.msg('上传成功')
+            }
+            ,error: function(){
+                //请求异常回调
+            }
+        });
+    });
+
+    layui.use(['form','jquery'],function () {
+        var form = layui.form
+        var $ = layui.jquery
+        form.on('submit(demoLogin)',function (data) {
+            $.post('/disk/user/login',data.field,function (data) {
+                console.log(data)
+                if(data==true){
+                    layer.msg('登录成功')
+                }else{
+                    layer.msg('登录失败')
+                }
+            })
+        })
+        // var filepath = "D:\\disk\\src\\main\\resources\\static\\upload\\192Z43110-4.jpg"
+
+        $('#download').click(function () {
+            $.post('/disk/file/download',{'filepath':filepath},function () {
+                window.location.href="/disk/file/download?filepath=./upload/192Z43110-4.jpg"
+            })
+        })
+
+    })
+</script>
+</html>

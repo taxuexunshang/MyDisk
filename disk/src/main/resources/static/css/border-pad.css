@@ -1,0 +1,15 @@
+html{
+    padding: 20px 15px 0 15px;
+/*    color: #FFFFFF;*/
+    color: #000000;
+}
+.layui-layer-content.layui-layer-padding{
+	color: #000000;
+}
+input{
+	border: 0;
+	background: transparent;
+}
+.layui-layer.layui-layer-page{
+	color: #000000;
+}

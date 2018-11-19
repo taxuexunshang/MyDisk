@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yhj.disk.mapper.DocMapper">
+    <insert id="insert" parameterType="com.yhj.disk.bean.Doc">
+        INSERT INTO t_doc(
+        filename,savepath,filesize,catalog,
+        filetype,memo,isshare,username,uploaddate,count
+        ) VALUES (
+        #{filename},#{savepath},#{filesize},#{catalog},#{filetype},
+        #{memo},#{isshare},#{username},#{uploaddate},#{count}
+        )
+    </insert>
+
+    <delete id="deleteById" parameterType="int">
+        DELETE FROM t_doc WHERE id=#{id}
+    </delete>
+
+    <update id="update" parameterType="com.yhj.disk.bean.Doc">
+        UPDATE t_doc SET
+        filename=#{filename},savepath=#{savepath},filesize=#{filesize},
+        catalog=#{catalog},filetype=#{filetype},memo=#{memo},
+        isshare=#{isshare},username=#{username},uploaddate=#{uploaddate},
+        count=#{count}
+        WHERE id=#{id}
+    </update>
+    
+    <select id="selectAllByUserName" resultType="com.yhj.disk.bean.Doc">
+        SELECT * FROM  t_doc WHERE  username=#{username}
+    </select>
+    
+    <select id="selectByFileName" resultType="com.yhj.disk.bean.Doc">
+        SELECT * FROM t_doc WHERE filename like "%"#{filename}"%"
+    </select>
+
+    <select id="selectOneFileByFileName" resultType="com.yhj.disk.bean.Doc">
+        SELECT * FROM t_doc WHERE filename=#{filename}
+    </select>
+
+</mapper>

@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yhj.disk.mapper.UserMapper">
+    <insert id="insert" parameterType="com.yhj.disk.bean.User">
+        INSERT INTO t_user(
+        username,password,memo,tel,email)
+        VALUES(
+        #{username},#{password},#{memo},#{tel},#{email})
+    </insert>
+
+    <select id="selectAll" resultType="com.yhj.disk.bean.User">
+        SELECT * FROM t_user
+    </select>
+
+    <select id="selectByUserName" parameterType="java.lang.String" resultType="com.yhj.disk.bean.User">
+        SELECT * FROM t_user WHERE username=#{username}
+    </select>
+
+    <update id="update" parameterType="com.yhj.disk.bean.User">
+        UPDATE t_user SET
+        username=#{username},
+        password=#{password},
+        memo=#{memo},
+        tel=#{tel},
+        email=#{email}
+    </update>
+
+    <delete id="deleteByUserName" parameterType="java.lang.String">
+        DELETE FROM t_user WHERE username=#{username}
+    </delete>
+</mapper>

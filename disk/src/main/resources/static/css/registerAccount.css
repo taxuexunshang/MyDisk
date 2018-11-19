@@ -1,0 +1,13 @@
+.layui-upload-list {
+    text-align: center;
+}
+
+.layui-upload-list>p {
+    margin-top: 10px;
+}
+
+#demo1 {
+    padding-left:10px; 
+    max-width: 90%;
+    max-height: 330px;
+}

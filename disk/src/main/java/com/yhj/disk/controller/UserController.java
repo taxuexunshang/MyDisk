@@ -28,4 +28,9 @@ public class UserController {
     public boolean register(User user){
         return userService.addUser(user);
     }
+
+    @RequestMapping("/user/logout")
+    public void logout(HttpSession session){
+        userService.logout(session);
+    }
 }

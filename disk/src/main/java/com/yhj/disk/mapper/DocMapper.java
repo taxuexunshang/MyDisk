@@ -47,4 +47,6 @@ public interface DocMapper {
      * @return 返回查询结果
      */
     public Doc selectOneFileByFileName(String fileName);
+
+    public List<Doc> selectShareFileByUserName(String userName);
 }

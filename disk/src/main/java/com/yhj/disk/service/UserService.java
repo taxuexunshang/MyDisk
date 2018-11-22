@@ -36,9 +36,8 @@ public interface UserService {
 
     /**
      * 登出
-     * @param userName 用户名
      * @param session session
      * @return
      */
-    public boolean logout(String userName, HttpSession session);
+    public boolean logout(HttpSession session);
 }

@@ -1,10 +1,14 @@
 package com.yhj.disk.service;
 
 import com.yhj.disk.bean.Doc;
+import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import java.io.UnsupportedEncodingException;
 import java.util.List;
 
 /**
@@ -14,12 +18,19 @@ import java.util.List;
  */
 
 public interface DocService {
-    /**
-     * 上传单个文件方法
-     * @param file 文件
-     * @return 是否上传成功
-     */
+
     public String upload(MultipartFile file, HttpSession session);
+    /**
+     *
+     * @param request http请求
+     * @param response http相应
+     * @param filepath 文件名
+     * @param id 主键
+     * @throws UnsupportedEncodingException 异常
+     */
+    public void downloadFile(HttpServletRequest request
+            , HttpServletResponse response, @Param("filepath") String filepath
+            , @Param("id")int id) throws UnsupportedEncodingException;
 
     /**
      * 查询当前用户所有文件信息
@@ -40,4 +51,16 @@ public interface DocService {
      * @return
      */
     public boolean deleteByUserName(String filepath,int id);
+
+    /**
+     * 根据id修改其文件分享状态
+     * @param id 主键id
+     */
+    public void changeShareType(int id,String fileName);
+
+    /**
+     *
+     * @param userName
+     */
+    public List<Doc> getUseful(String userName);
 }

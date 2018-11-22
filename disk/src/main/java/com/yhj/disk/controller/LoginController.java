@@ -23,9 +23,8 @@ public class LoginController {
         System.out.println(session.getAttribute("userName"));
         Object userName = session.getAttribute("userName");
         if(userName==null){
-            return "login.html";
+            return "/gologin";
         }else{
-            System.out.println(1);
             return name;
         }
     }

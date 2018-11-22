@@ -45,18 +45,13 @@
         <button class="layui-btn" onclick="x_admin_show('添加用户','./order-add.html')"><i class="layui-icon"></i>添加</button>
         <span class="x-right" style="line-height:40px">共有数据：88 条</span>
       </xblock> -->
-    <table class="layui-table" id="FileMessage">
-    </table>
-    <div class="page">
-      <div>
-        <a class="prev" href="">&lt;&lt;</a>
-        <a class="num" href="">1</a>
-        <span class="current">2</span>
-        <a class="num" href="">3</a>
-        <a class="num" href="">489</a>
-        <a class="next" href="">&gt;&gt;</a>
+    <table class="layui-table" id="FileMessage" lay-filter="FileMessage"></table>
+
+    <script type="text/html" id="ipts">
+      <div class="layui-btn-group">
+        <a class="layui-btn layui-btn-primary layui-btn-xs" lay-event="download">下载</a>
       </div>
-    </div>
+    </script>
 
   </div>
   <script>
@@ -77,69 +72,108 @@
       });
 
       form.on('submit(search)',function (data) {
-          $.post('/disk/file/SearchUserlist',data.field,function (data) {
+          $.post('/disk/file/selectUsefulFile',data.field,function (data) {
               FileListTable(data)
           })
       })
 
     function FileListTable(data){
-    table.render({
-      elem: '#FileMessage',
-      // url: '/User/UserInfo',
-      id: 'id',
-      // width: 1255,
-      page: true, //开启分页
-        cols: [
-            [ //表头
-                {
-                    type: 'checkbox',
-                    fixed: 'left'
-                },
-                {
-                    field: 'filename',
-                    title: '文件名',
-                    width: '20%',
-                    sort: true,
+
+        table.render({
+            elem: '#FileMessage',
+            // url: '/User/UserInfo',
+            id: 'id',
+            page: true, //开启分页
+            cols: [
+                [
+                    {
+                        field: 'filename',
+                        title: '文件名',
+                        width: '10%',
+                        sort: true,
+                        fixed: 'left'
+                    }, {
+                    field: 'savepath',
+                    title: '路径',
+                    width: '15%',
                     fixed: 'left'
                 }, {
-                field: 'savepath',
-                title: '路径',
-                width: '20%',
-                fixed: 'left'
-            }, {
-                field: 'filesize',
-                title: '文件大小',
-                width: '12%',
-                sort: true
-            }, {
-                field: 'catalog',
-                title: '分类',
-                width: '5%'
-            }, {
-                field: 'filetype',
-                title: '文件类型',
-                width: '10%'
-            }, {
-                field: 'uploaddate',
-                title: '上传日期',
-                width: '20%',
-                sort: true
-            }, {
-                field: 'count',
-                title: '下载数量',
-                width: '10%',
-                sort: true}
-          // }, {
-          //   field: 'btn',
-          //   title: '操作',
-          //   width: "12%",
-          //   align: "center",
-          //   toolbar: "#ipts"
-          // }
-        ]
-      ],
-      data: data
-    });
+                    field: 'filesize',
+                    title: '文件大小',
+                    width: '15%',
+                    sort: true
+                }, {
+                    field: 'filetype',
+                    title: '文件类型',
+                    width: '10%'
+                }, {
+                    field: 'uploaddate',
+                    title: '上传日期',
+                    width: '15%',
+                    sort: true
+                }, {
+                    field: 'count',
+                    title: '下载数量',
+                    width: '10%',
+                    sort: true
+                },
+                    {
+                        field: 'isshare',
+                        title: '分享',
+                        width: '10%',
+                        sort: true
+                    },
+                    {
+                        field: 'btn',
+                        title: '操作',
+                        width: "15%",
+                        align: "center",
+                        toolbar: "#ipts"
+                    }
+                ]
+            ],
+            data: data
+        })
+
+        //监听工具条
+        table.on('tool(FileMessage)', function(obj){
+            var data = obj.data;
+            if(obj.event === 'share'){
+                $.post('/disk/file/changeShareType',{id:data.id,fileName:data.filename},function () {
+                    layer.msg("分享成功")
+                    $.post('/disk/file/selectUsefulFile',function (data) {
+                        fileTable(data)
+                    })
+                })
+            } else if(obj.event === 'del'){
+                layer.confirm('确定要删除文件吗', function(index){
+                    $.post('/disk/file/delete',{id:data.id,fileName:data.savepath}
+                        ,function (data) {
+                            if(data==true){
+                                layer.msg("删除成功")
+                                $.post('/disk/file/selectUsefulFile',function (data) {
+                                    fileTable(data)
+                                })
+                            }else{
+                                layer.msg("删除失败")
+                            }
+                        })
+                    obj.del();
+                });
+            } else if(obj.event === 'download'){
+                window.open('/disk/file/download?filepath='+data.filename+'&id='+data.id)
+                $.post('/disk/file/selectUsefulFile',function (data) {
+                    fileTable(data)
+                })
+            }else if(obj.event==='unshare'){
+                $.post('/disk/file/changeShareType',{id:data.id,fileName:data.filename},function () {
+                    layer.msg("取消分享成功")
+                    $.post('/disk/file/selectUsefulFile',function (data) {
+                        fileTable(data)
+                    })
+                })
+            }
+        });
     }
   });
     //第一个实例

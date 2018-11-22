@@ -77,12 +77,11 @@ public class UserServiseImpl implements UserService {
     /**
      * 登出
      *
-     * @param userName 用户名
      * @param session session
      * @return 返回是否注销成功
      */
     @Override
-    public boolean logout(String userName, HttpSession session) {
+    public boolean logout(HttpSession session) {
         session.invalidate();
         return true;
     }

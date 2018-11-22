@@ -37,4 +37,8 @@
         SELECT * FROM t_doc WHERE filename=#{filename}
     </select>
 
+    <select id="selectShareFileByUserName" resultType="com.yhj.disk.bean.Doc">
+        SELECT * FROM t_doc WHERE username=#{username} and isshare="yes"
+    </select>
+
 </mapper>

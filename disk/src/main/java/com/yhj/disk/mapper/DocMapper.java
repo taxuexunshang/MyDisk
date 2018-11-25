@@ -5,7 +5,7 @@ import com.yhj.disk.bean.Doc;
 import java.util.List;
 
 /**
- * @Description:
+ * @Description: 文件信息mapper接口
  * @Author: YangWuXin
  * @Date: 2018/11/15 15:03
  */
@@ -37,7 +37,7 @@ public interface DocMapper {
     /**
      * 通过文件名模糊查询文件
      * @param fileName 文件名
-     * @return 文档集合
+     * @return 文件集合
      */
     public List<Doc> selectByFileName(String fileName);
 
@@ -48,5 +48,10 @@ public interface DocMapper {
      */
     public Doc selectOneFileByFileName(String fileName);
 
+    /**
+     * 根据用户名查找用户分享文件
+     * @param userName 用户名
+     * @return 文件集合
+     */
     public List<Doc> selectShareFileByUserName(String userName);
 }

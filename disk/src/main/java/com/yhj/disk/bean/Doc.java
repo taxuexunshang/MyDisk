@@ -3,7 +3,7 @@ package com.yhj.disk.bean;
 import java.io.Serializable;
 
 /**
- * @Description:
+ * @Description: 文件信息实体类
  * @Author: YangWuXin
  * @Date: 2018/11/15 14:55
  */

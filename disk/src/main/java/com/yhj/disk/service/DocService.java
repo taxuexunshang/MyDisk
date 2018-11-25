@@ -12,7 +12,7 @@ import java.io.UnsupportedEncodingException;
 import java.util.List;
 
 /**
- * @Description:
+ * @Description: 文件服务接口
  * @Author: YangWuXin
  * @Date: 2018/11/15 17:39
  */
@@ -21,7 +21,7 @@ public interface DocService {
 
     public String upload(MultipartFile file, HttpSession session);
     /**
-     *
+     * 文件下载
      * @param request http请求
      * @param response http相应
      * @param filepath 文件名
@@ -38,17 +38,12 @@ public interface DocService {
      */
     public List<Doc> fileMsg(String userName);
 
-    /**
-     * 文件下载
-     * @param id 文件id
-     */
-    public void download(int id);
 
     /**
      * 根据文件路径删除文件,同时根据id数据库记录
-     * @param filepath
-     * @param id
-     * @return
+     * @param filepath 文件名
+     * @param id 主键
+     * @return 返回是否成功
      */
     public boolean deleteByUserName(String filepath,int id);
 
@@ -59,8 +54,8 @@ public interface DocService {
     public void changeShareType(int id,String fileName);
 
     /**
-     *
-     * @param userName
+     * 通过用户名查询别的用户分享的文件
+     * @param userName 用户名
      */
     public List<Doc> getUseful(String userName);
 }

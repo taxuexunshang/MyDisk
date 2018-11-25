@@ -5,7 +5,7 @@ import com.yhj.disk.bean.User;
 import java.util.List;
 
 /**
- * @Description:
+ * @Description: 用户mapper接口
  * @Author: YangWuXin
  * @Date: 2018/11/15 15:03
  */

@@ -18,12 +18,13 @@ import java.util.Date;
 import java.util.List;
 
 /**
- * @Description:
+ * @Description: 文件服务实现类
  * @Author: YangWuXin
  * @Date: 2018/11/15 17:51
  */
 @Service
 public class DocServiceImpl implements DocService {
+
     @Autowired
     private DocMapper docMapper;
 
@@ -42,7 +43,7 @@ public class DocServiceImpl implements DocService {
             return "上传失败，请选择文件";
         }
         String fileName = file.getOriginalFilename();
-
+        //项目upload对应的绝对路径
         String filePath = "D:\\disk\\src\\main\\resources\\static\\upload\\";
 
         System.out.println("上传到"+filePath + fileName);
@@ -61,6 +62,7 @@ public class DocServiceImpl implements DocService {
 
         try {
             file.transferTo(dest);
+            //更新数据库
             if(docMapper.selectOneFileByFileName(fileName)==null){
                 docMapper.insert(doc);
             }
@@ -73,7 +75,7 @@ public class DocServiceImpl implements DocService {
     /**
      * 查询当前用户所有文件信息
      *
-     * @param userName
+     * @param userName 用户名
      * @return 文件信息列表
      */
     @Override
@@ -83,17 +85,11 @@ public class DocServiceImpl implements DocService {
 
     /**
      * 文件下载
-     *
-     * @param id 文件id
-     */
-    @Override
-    public void download(int id) {
-
-    }
-
-    /**
-     * 文件下载
-     * @param id 文件id
+     * @param request http请求
+     * @param response http相应
+     * @param filepath 文件名
+     * @param id 主键
+     * @throws UnsupportedEncodingException
      */
     @Override
     public void downloadFile(HttpServletRequest request
@@ -101,9 +97,10 @@ public class DocServiceImpl implements DocService {
             , @Param("id")int id) throws UnsupportedEncodingException {
         System.out.println("id="+id);
         Doc doc = docMapper.selectOneFileByFileName(filepath);
+        //更新文件下载次数
         doc.setCount(doc.getCount() + 1);
         docMapper.update(doc);
-
+        //项目路径update所对应的绝对路径
         String locpath="D:/disk/src/main/resources/static/upload/";
         String fileName = locpath+filepath;
         System.out.println(fileName);
@@ -134,10 +131,8 @@ public class DocServiceImpl implements DocService {
                         os.write(buffer, 0, i);
                         i = bis.read(buffer);
                     }
-                    System.out.println("Download the song successfully!");
                 }
                 catch (Exception e) {
-                    System.out.println("Download the song failed!");
                 }
                 finally {
                     if (bis != null) {
@@ -194,6 +189,7 @@ public class DocServiceImpl implements DocService {
     }
 
     /**
+     * 根据用户名查询用户允许分享的文件
      * @param userName
      */
     @Override
@@ -201,6 +197,11 @@ public class DocServiceImpl implements DocService {
         return docMapper.selectShareFileByUserName(userName);
     }
 
+    /**
+     * 删除文件方法
+     * @param filename 文件全路径
+     * @return 是否成功
+     */
     //删除本地文件的方法
     public boolean delFile(String filename) {
         File file=new File(filename);
